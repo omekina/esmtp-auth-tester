@@ -57,14 +57,14 @@ def socket_lifetime(sock: SSLSocket, login: [str, str]) -> None:
     # Authentication - password
     response = sock.recv(4096).decode("utf-8", "ignore")
     if response[:3] != "334" or response[4:16] != "UGFzc3dvcmQ6":
-        console.print_event("Server error", True)
+        console.print_event("Authentication failed", True)
         return
     console.print_stream("Ok", False)
     sock.sendall(b64encode(login[1].encode("utf-8", "ignore")) + b'\r\n')
     console.print_stream("Sent password", True)
     response = sock.recv(4096).decode("utf-8", "ignore")
     if response[:3] != "235":
-        console.print_event("Server error", True)
+        console.print_event("Authentication failed", True)
         return
     console.print_stream("Ok", False)
     
